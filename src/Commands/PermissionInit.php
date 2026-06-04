@@ -4,29 +4,17 @@ namespace Fazzinipierluigi\JustAGate\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class PermissionInit extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'permission:init';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Initialize the package for the first time';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): int
     {
-        $operation_performed = FALSE;
+        $operation_performed = false;
 
         $migrations = [
             '2026_02_16_114737_create_roles_table',
@@ -38,8 +26,7 @@ class PermissionInit extends Command
         $pendingMigrations = [];
 
         foreach ($migrations as $migration) {
-            $exists = \DB::table('migrations')->where('migration', 'like', "%{$migration}%")->exists();
-            if (!$exists) {
+            if (!DB::table('migrations')->where('migration', 'like', "%{$migration}%")->exists()) {
                 $pendingMigrations[] = $migration;
             }
         }
@@ -47,10 +34,10 @@ class PermissionInit extends Command
         if (!empty($pendingMigrations)) {
             $this->info('Running migrations...');
             Artisan::call('migrate', [
-                '--path' => 'vendor/fazzinipierluigi/just_a_gate/database/migrations',
+                '--path' => 'vendor/fazzinipierluigi/just-a-gate/database/migrations',
             ]);
             $this->line(Artisan::output());
-            $operation_performed = TRUE;
+            $operation_performed = true;
         }
 
         $adminRole = \Fazzinipierluigi\JustAGate\Models\Role::where('slug', 'admin')->first();
@@ -63,11 +50,12 @@ class PermissionInit extends Command
             $adminRole->is_system = true;
             $adminRole->save();
             $this->info('Admin role created successfully');
-            $operation_performed = TRUE;
+            $operation_performed = true;
         }
 
-        if($operation_performed)
+        if ($operation_performed) {
             $this->info('Just a gate package has been initialized successfully');
+        }
 
         return Command::SUCCESS;
     }

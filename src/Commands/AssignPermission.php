@@ -36,7 +36,7 @@ class AssignPermission extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
 		$key = trim($this->argument('key'));
 		$role_slug = trim($this->argument('role'));
