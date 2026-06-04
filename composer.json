@@ -4,20 +4,20 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Pielruigi Fazzini",
-            "email": "fazzinipierluigi@gmail.com",
-            "homepage": "http://author.com"
+            "name": "Pierluigi Fazzini",
+            "email": "fazzinipierluigi@gmail.com"
         }
     ],
     "homepage": "https://github.com/fazzinipierluigi/just-a-gate",
-    "keywords": ["Laravel", "JustAGate", "ACL", "Permissions"],
+    "keywords": ["Laravel", "JustAGate", "ACL", "Permissions", "Roles"],
     "require": {
-        "illuminate/support": "^10.0|^11.0|^12.0",
-        "laravel/prompts": "^0.3.13"
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "laravel/prompts": "^0.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "~9.0",
-        "orchestra/testbench": "~7"
+        "phpunit/phpunit": "^10.0|^11.0|^12.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {

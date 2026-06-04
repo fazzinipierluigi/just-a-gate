@@ -8,6 +8,11 @@ use Illuminate\Support\ServiceProvider;
 
 class JustAGateServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->singleton('just_a_gate', fn() => new \Fazzinipierluigi\JustAGate\JustAGate());
+    }
+
     /**
      * Perform post-registration booting of services.
      *
@@ -19,11 +24,21 @@ class JustAGateServiceProvider extends ServiceProvider
 
         $this->bootBladeDirectives();
         $this->registerMiddleware();
+        $this->bootLivewire();
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
+    }
+
+    private function bootLivewire(): void
+    {
+        if (!class_exists(\Livewire\Livewire::class)) {
+            return;
+        }
+
+        \Livewire\Livewire::componentHook(\Fazzinipierluigi\JustAGate\Livewire\AclComponentHook::class);
     }
 
     private function registerMiddleware(): void

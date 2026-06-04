@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
-    public static function findByKey($key = NULL)
+    protected $guarded = [];
+
+    public function roles()
     {
-        if(empty($key) || !is_string($key))
-        {
-            return NULL;
+        return $this->belongsToMany(Role::class);
+    }
+
+    public static function findByKey($key = null): ?self
+    {
+        if (empty($key) || !is_string($key)) {
+            return null;
         }
 
-        $permission = self::where('key', '=', $key)->first();
-        if(!empty($permission))
-            return $permission;
-        else
-            return NULL;
+        return self::where('key', '=', $key)->first() ?? null;
     }
 }

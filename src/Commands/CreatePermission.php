@@ -36,7 +36,7 @@ class CreatePermission extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
     	$key = $this->argument('key');
     	if(empty($key))
